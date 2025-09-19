@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Home, FileText, Upload, MessageSquare, Folder, Settings, HelpCircle, Star, Clock, Archive } from "lucide-react"
+import { Home, Upload, MessageSquare, Settings, HelpCircle } from "lucide-react"
 
 interface DashboardSidebarProps {
   open: boolean
@@ -12,16 +12,7 @@ interface DashboardSidebarProps {
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: Home, current: true },
   { name: "Upload Document", href: "/dashboard/upload", icon: Upload, current: false },
-  { name: "My Documents", href: "/dashboard/documents", icon: FileText, current: false },
   { name: "AI Assistant", href: "/dashboard/chat", icon: MessageSquare, current: false },
-]
-
-const documentCategories = [
-  { name: "Recent", icon: Clock, count: 12 },
-  { name: "Favorites", icon: Star, count: 5 },
-  { name: "Contracts", icon: Folder, count: 8 },
-  { name: "Legal Briefs", icon: Folder, count: 3 },
-  { name: "Archived", icon: Archive, count: 15 },
 ]
 
 export function DashboardSidebar({ open }: DashboardSidebarProps) {
@@ -58,22 +49,6 @@ export function DashboardSidebar({ open }: DashboardSidebarProps) {
                       <item.icon className="mr-3 h-4 w-4" />
                       {item.name}
                     </a>
-                  </Button>
-                ))}
-              </nav>
-            </div>
-
-            {/* Document Categories */}
-            <div className="space-y-1">
-              <h3 className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Documents</h3>
-              <nav className="space-y-1">
-                {documentCategories.map((category) => (
-                  <Button key={category.name} variant="ghost" className="w-full justify-between">
-                    <div className="flex items-center">
-                      <category.icon className="mr-3 h-4 w-4" />
-                      {category.name}
-                    </div>
-                    <span className="text-xs text-muted-foreground">{category.count}</span>
                   </Button>
                 ))}
               </nav>

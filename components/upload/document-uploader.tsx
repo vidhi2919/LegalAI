@@ -17,7 +17,11 @@ interface UploadedFile {
   error?: string
 }
 
-export function DocumentUploader() {
+interface DocumentUploaderProps {
+  onUploadComplete?: (document: { name: string; size: string; id: string }) => void
+}
+
+export function DocumentUploader({ onUploadComplete }: DocumentUploaderProps) {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -51,7 +55,15 @@ export function DocumentUploader() {
               const newProgress = Math.min(file.progress + Math.random() * 15, 100)
               if (newProgress >= 100) {
                 clearInterval(interval)
-                return { ...file, status: "completed", progress: 100 }
+                const completedFile = { ...file, status: "completed" as const, progress: 100 }
+                if (onUploadComplete) {
+                  onUploadComplete({
+                    name: file.file.name,
+                    size: `${(file.file.size / (1024 * 1024)).toFixed(1)} MB`,
+                    id: file.id,
+                  })
+                }
+                return completedFile
               }
               return { ...file, progress: newProgress }
             }

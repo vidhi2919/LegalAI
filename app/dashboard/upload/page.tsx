@@ -4,11 +4,12 @@ import { useState } from "react"
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar"
 import { DocumentUploader } from "@/components/upload/document-uploader"
-import { UploadHistory } from "@/components/upload/upload-history"
-import { ProcessingQueue } from "@/components/upload/processing-queue"
+import { DocumentAnalysisOptions } from "@/components/upload/document-analysis-options"
 
 export default function UploadPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [documentUploaded, setDocumentUploaded] = useState(false)
+  const [uploadedDocument, setUploadedDocument] = useState<any>(null)
 
   return (
     <div className="min-h-screen bg-background">
@@ -27,14 +28,16 @@ export default function UploadPage() {
               </p>
             </div>
 
-            {/* Upload Section */}
-            <DocumentUploader />
-
-            {/* Processing Queue */}
-            <ProcessingQueue />
-
-            {/* Upload History */}
-            <UploadHistory />
+            {!documentUploaded ? (
+              <DocumentUploader
+                onUploadComplete={(document) => {
+                  setUploadedDocument(document)
+                  setDocumentUploaded(true)
+                }}
+              />
+            ) : (
+              <DocumentAnalysisOptions document={uploadedDocument} onBack={() => setDocumentUploaded(false)} />
+            )}
           </div>
         </main>
       </div>
