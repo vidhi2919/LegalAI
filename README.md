@@ -1,1 +1,1 @@
-##LEGAL AI
+LEGAL AI
